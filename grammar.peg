@@ -1,0 +1,8 @@
+package main
+
+import "os"
+import "os/exec"
+
+type Prog Peg {
+     Cmd *exec.Cmd
+}
