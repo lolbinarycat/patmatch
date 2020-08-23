@@ -7,7 +7,7 @@ type Prog Peg {
      In io.Writer
 }
 
-Command <- <!nl* nl>  {
+Command <- <!nl*> nl  {
 	logln("command:",text);
 	p.In.Write(append([]byte(text),'\n'))
 }
