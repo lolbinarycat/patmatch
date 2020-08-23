@@ -20,12 +20,12 @@ Command <- <(!nl .)*> nl  {
 	}
 }
 
-Pattern <- {p.MStat.Reset()} ( UndPat {p.MStat.All = true}
+Pattern <- {p.MStat.Reset()} ( UndPat {p.MStat.All = true} 
 	   		       / PatternList 
 			     ) {p.MStat.Process()}
 
 UndPat <- "_" 
-PatternList <- "[" sp* ( PatListItem )? sp "]"
+PatternList <- "[" sp* ( PatListItem )? sp* "]"
 PatListItem <- SubPattern {p.MStat.ActiveArg++}
 
 SubPattern <- UndPat {p.MStat.MatchArg()}
