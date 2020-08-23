@@ -20,12 +20,20 @@ Command <- <(!nl .)*> nl  {
 	}
 }
 
-Pattern <- UndPat 
+Pattern <- {p.MStat.Reset()} ( UndPat {p.MStat.All = true}
+	   		       / PatternList 
+			     ) {p.MStat.Process()}
 
-UndPat <- "_" {p.MStat.All = true}
+UndPat <- "_" 
+PatternList <- "[" sp* ( PatListItem )? sp "]"
+PatListItem <- SubPattern {p.MStat.ActiveArg++}
+
+SubPattern <- UndPat {p.MStat.MatchArg()}
 
 eof <- !. {logln("end of file");p.In.Write([]byte{'\x03'})}
 
 nl <- "\n"
+
+sp <- " "
 
 tab <- "\t"

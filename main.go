@@ -12,8 +12,8 @@ const Shell = "/bin/bash"
 //go:generate peg grammar.peg
 
 func main() {
-	src := `_
-	echo test
+	src := `[]
+	echo "1 arg"
 	exit 0
 `
 	p := Prog{
