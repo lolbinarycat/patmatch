@@ -12,12 +12,18 @@ const Shell = "/bin/bash"
 //go:generate peg grammar.peg
 
 func main() {
-	src := `echo test
+	src := `_
+	echo test
+	exit 0
 `
-	p := Prog{Cmd:&exec.Cmd{
-		Path:Shell,
-		Stdout:os.Stdout,
-	},Buffer:src}
+	p := Prog{
+		Cmd:&exec.Cmd{
+			Path:Shell,
+			Stdout:os.Stdout,
+		},
+		MStat: NewMatchStatus(1),
+		Args:[]string{"t"},
+		Buffer:src}
 	var err error
 	p.In, err = p.Cmd.StdinPipe()
 	fatal(err)

@@ -5,13 +5,27 @@ import "os/exec"
 type Prog Peg {
      Cmd *exec.Cmd
      In io.Writer
+     Args []string
+     MStat *MatchStatus
 }
 
-Command <- <!nl*> nl  {
+Main <- Block+ eof
+
+Block <- Pattern nl (tab Command)* 
+
+Command <- <(!nl .)*> nl  {
 	logln("command:",text);
-	p.In.Write(append([]byte(text),'\n'))
+	if p.MStat.All {
+		p.In.Write(append([]byte(text),'\n'))
+	}
 }
+
+Pattern <- UndPat 
+
+UndPat <- "_" {p.MStat.All = true}
 
 eof <- !. {logln("end of file");p.In.Write([]byte{'\x03'})}
 
 nl <- "\n"
+
+tab <- "\t"
