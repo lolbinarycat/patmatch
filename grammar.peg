@@ -34,6 +34,9 @@ SubPattern <- UndPat {p.MStat.MatchArg()}
 	      	  	      	      logln("matched:",text)
 	      	  	      	      p.MStat.MatchArg()
 	      	  	      	  } else {logln("did not match:",text)}}
+	    / "$" <alphaNum+>     {os.Setenv(text,p.Args[p.MStat.ActiveArg])
+				      p.MStat.MatchArg()
+				  }
 
 alphaNum <- letter / number
 
