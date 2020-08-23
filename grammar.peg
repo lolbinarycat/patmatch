@@ -1,8 +1,17 @@
 package main
 
-import "os"
 import "os/exec"
 
 type Prog Peg {
      Cmd *exec.Cmd
+     In io.Writer
 }
+
+Command <- <!nl* nl>  {
+	logln("command:",text);
+	p.In.Write(append([]byte(text),'\n'))
+}
+
+eof <- !. {logln("end of file");p.In.Write([]byte{'\x03'})}
+
+nl <- "\n"
