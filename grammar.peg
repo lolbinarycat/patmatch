@@ -17,6 +17,7 @@ Command <- <(!nl .)*> nl  {
 	logln("command:",text);
 	if p.MStat.All {
 		p.In.Write(append([]byte(text),'\n'))
+		logln("ran command")
 	}
 }
 
@@ -29,6 +30,16 @@ PatternList <- "[" sp* ( PatListItem )? sp* "]"
 PatListItem <- SubPattern {p.MStat.ActiveArg++}
 
 SubPattern <- UndPat {p.MStat.MatchArg()}
+	    / ["] <alphaNum*> ["] {if text == p.Args[p.MStat.ActiveArg] {
+	      	  	      	      logln("matched:",text)
+	      	  	      	      p.MStat.MatchArg()
+	      	  	      	  } else {logln("did not match:",text)}}
+
+alphaNum <- letter / number
+
+letter <- [[a-z]]
+
+number <- [0-9]
 
 eof <- !. {logln("end of file");p.In.Write([]byte{'\x03'})}
 

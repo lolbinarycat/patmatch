@@ -20,9 +20,11 @@ func (s *MatchStatus) Reset() {
 		s.Args[i] = false
 	}
 	s.ActiveArg = 0
+	logln("MatchStatus reset")
 }
 
 func (s *MatchStatus) Process() {
+	logln("processing mstat")
 	switch {
 	case s.Failed:
 		s.All = false
@@ -32,15 +34,18 @@ func (s *MatchStatus) Process() {
 		// this means the amount of args the pattern was expecting
 		// was not the amout of args the pattern got,
 		// so the match fails
+		logln("wrong number of args, needed",len(s.Args),"got",s.ActiveArg)
 		s.All = false
 	default:
 		s.All = true
 		for i:=0;i<s.ActiveArg;i++ {
 			if s.Args[i] == false {
+				logln("arg",i,"did not match")
 				s.All = false
 			}
 		}
 	}
+	logln("processed mstat")
 }
 
 func (s *MatchStatus) MatchArg() {

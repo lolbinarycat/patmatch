@@ -12,8 +12,8 @@ const Shell = "/bin/bash"
 //go:generate peg grammar.peg
 
 func main() {
-	src := `[_]
-	echo "1 arg"
+	src := `["t"]
+	echo "t arg"
 	exit 0
 `
 	p := Prog{
@@ -21,8 +21,8 @@ func main() {
 			Path:Shell,
 			Stdout:os.Stdout,
 		},
-		MStat: NewMatchStatus(2),
-		Args:[]string{"t","n"},
+		MStat: NewMatchStatus(1),
+		Args:[]string{"t"},
 		Buffer:src}
 	var err error
 	p.In, err = p.Cmd.StdinPipe()
