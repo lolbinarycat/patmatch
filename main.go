@@ -15,8 +15,8 @@ const SetVarCmd = `export %s="%s"`
 //go:generate peg grammar.peg
 
 func main() {
-	src := `[$a]
-	echo "got $a"
+	src := `["say", $a]
+	echo "$a"
 	exit 0
 `
 	p := Prog{
@@ -24,8 +24,8 @@ func main() {
 			Path:Shell,
 			Stdout:os.Stdout,
 		},
-		MStat: NewMatchStatus(1),
-		Args:[]string{"t"},
+		MStat: NewMatchStatus(2),
+		Args:[]string{"say","hi"},
 		Buffer:src}
 	var err error
 	p.In, err = p.Cmd.StdinPipe()

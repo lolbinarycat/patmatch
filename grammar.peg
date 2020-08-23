@@ -26,7 +26,7 @@ Pattern <- {p.MStat.Reset()} ( UndPat {p.MStat.All = true}
 			     ) {p.MStat.Process()}
 
 UndPat <- "_" 
-PatternList <- "[" sp* ( PatListItem )? sp* "]"
+PatternList <- "[" sp* ( (PatListItem sp* "," sp* )* PatListItem )? sp* "]"
 PatListItem <- SubPattern {p.MStat.ActiveArg++}
 
 SubPattern <- UndPat {p.MStat.MatchArg()}
