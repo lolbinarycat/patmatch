@@ -2,12 +2,15 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"os"
 	"os/exec"
-	"log"
 )
 
 const Shell = "/bin/bash"
+
+const SetVarCmd = `export %s="%s"`
 
 //go:generate peg grammar.peg
 
@@ -39,6 +42,7 @@ func main() {
 	logln("executing")
 	p.Execute()
 	logln("done")
+	logln(os.Getenv("a"))
 }
 
 func fatal(err error) {
@@ -47,4 +51,9 @@ func fatal(err error) {
 
 func logln(args ...interface{}) {
 	log.Println(args...)
+}
+
+func (p *Prog) SetVar(key, value string) {
+	fmt.Fprintf(p.In,SetVarCmd,key,value)
+	p.In.Write([]byte{'\n'})
 }
